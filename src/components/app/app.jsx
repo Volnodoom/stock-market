@@ -1,14 +1,14 @@
 import { ThemeProvider } from "styled-components";
 import * as S from "./app.style";
 import { defaultTheme } from "themes/default-theme";
+import MainPage from "pages/main-page";
 
 const App = () => {
   return (
     <ThemeProvider theme={defaultTheme}>
       <S.GlobalStyle />
       <S.AppWrapper>
-        <div>Hello Dude</div>
-
+        <MainPage />
       </S.AppWrapper>
 
     </ThemeProvider>

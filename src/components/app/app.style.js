@@ -156,7 +156,12 @@ button,
 `;
 
 const AppWrapper = styled.div`
+  padding: 1.875rem 1rem;
 
+  @media (min-width: 960px) {
+    padding: 2.875rem 4rem;
+
+  }
 `;
 
 export {

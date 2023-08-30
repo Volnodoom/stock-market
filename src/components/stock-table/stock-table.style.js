@@ -31,14 +31,11 @@ const TableHeadCell = styled.th`
   ${cellPadding};
   font-weight: 500;
   text-align: start;
-
 `;
 
 const TableRow = styled.tr`
   border-bottom: 1px solid ${({theme}) => theme.color.supportOne};
 `;
-
-
 
 export {
   Table,

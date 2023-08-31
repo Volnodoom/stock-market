@@ -3,11 +3,10 @@ import { useSelector } from "react-redux";
 import { TableRow } from "components/stock-table/stock-table.style";
 import * as S from "./table-body-row.style";
 import * as selector from "store/data-stock/selectors-stock";
-import { LOCAL_FORMATION } from "utils/constants";
+import { LOCAL_FORMATION, StockInfoDefinition } from "utils/constants";
 
 const TableBodyRow = ({stockId}) => {
   const {
-    id,
     companyName,
     price,
     ebitdaReported,
@@ -61,7 +60,7 @@ const TableBodyRow = ({stockId}) => {
                 {
                   cashPaidForInterest ?
                     <S.LineCellInfoWrapper>
-                      <dt>Cash Paid For Interest</dt>
+                      <dt><dfn title={StockInfoDefinition.CashPaidForInterest}>Cash Paid For Interest</dfn></dt>
                       <dd>{cashPaidForInterest.toLocaleString(LOCAL_FORMATION)}</dd>
                     </S.LineCellInfoWrapper>
                   :
@@ -70,7 +69,7 @@ const TableBodyRow = ({stockId}) => {
                 {
                   pricePerEarnings ?
                   <S.LineCellInfoWrapper>
-                    <dt>Price Per Earnings</dt>
+                    <dt><dfn title={StockInfoDefinition.PricePerEarnings}>Price Per Earnings</dfn></dt>
                     <dd>{pricePerEarnings.toLocaleString(LOCAL_FORMATION)}</dd>
                   </S.LineCellInfoWrapper>
                   :
@@ -79,17 +78,8 @@ const TableBodyRow = ({stockId}) => {
                 {
                   stockPreferredEquity ?
                   <S.LineCellInfoWrapper>
-                    <dt>Stock Preferred Equity</dt>
+                    <dt><dfn title={StockInfoDefinition.StockPreferredEquity}>Stock Preferred Equity</dfn></dt>
                     <dd>{stockPreferredEquity.toLocaleString(LOCAL_FORMATION)}</dd>
-                  </S.LineCellInfoWrapper>
-                  :
-                  <></>
-                }
-                {
-                  cashPaidForInterest ?
-                  <S.LineCellInfoWrapper>
-                    <dt>Cash Paid For Interest</dt>
-                    <dd>{cashPaidForInterest.toLocaleString(LOCAL_FORMATION)}</dd>
                   </S.LineCellInfoWrapper>
                   :
                   <></>
@@ -97,7 +87,7 @@ const TableBodyRow = ({stockId}) => {
                 {
                   profitGross ?
                   <S.LineCellInfoWrapper>
-                    <dt>Profit Gross</dt>
+                    <dt><dfn title={StockInfoDefinition.ProfitGross}>Profit Gross</dfn></dt>
                     <dd>{profitGross.toLocaleString(LOCAL_FORMATION)}</dd>
                   </S.LineCellInfoWrapper>
                   :
@@ -106,7 +96,7 @@ const TableBodyRow = ({stockId}) => {
                 {
                   ebitdaReported ?
                   <S.LineCellInfoWrapper>
-                    <dt>Ebitda Reported</dt>
+                    <dt><dfn title={StockInfoDefinition.EbitdaReported}>Ebitda Reported</dfn></dt>
                     <dd>{ebitdaReported.toLocaleString(LOCAL_FORMATION)}</dd>
                   </S.LineCellInfoWrapper>
                   :

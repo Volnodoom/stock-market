@@ -6,5 +6,6 @@ export const stockInfoById = (id) => (state) => baseSelector.selectById(state[Na
 export const stockInfoAll = (state) => baseSelector.selectAll(state[NameSpace.DataStocks]);
 export const stockIdAll = (state) => baseSelector.selectIds(state[NameSpace.DataStocks]);
 export const getInitialLoadStatus = (state) => state[NameSpace.DataStocks].initialDataStatus;
+export const getFetchTotalInfoStatus = (state) => state[NameSpace.DataStocks].fetchTotalInfoStatus;
 export const getCurrentPage = (state) => state[NameSpace.DataStocks].currentPage;
 export const getTotalNumber = (state) => state[NameSpace.DataStocks].totalNumber;

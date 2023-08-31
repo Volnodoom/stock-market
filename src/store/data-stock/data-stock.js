@@ -1,5 +1,6 @@
 import { createEntityAdapter, createSlice } from "@reduxjs/toolkit";
 import { LoadingStatus, NameSpace, ONE } from "utils/constants";
+import { fetchFullCompanyInfo } from "./actions-stock";
 
 export const stockAdapter = createEntityAdapter();
 
@@ -9,6 +10,7 @@ export const initialState = stockAdapter.getInitialState({
   currentPage: ONE,
   totalNumber: null,
   initialDataStatus: LoadingStatus.Idle,
+  fetchTotalInfoStatus: LoadingStatus.Idle,
 });
 
 export const dataStock = createSlice({
@@ -25,10 +27,19 @@ export const dataStock = createSlice({
     setTotalNumber: (state, action) => {
       state.totalNumber = action.payload;
     },
-    setInitialDataStatus: (state, action) => {
-      state.initialDataStatus = action.payload;
-    },
   },
+  extraReducers: (builder) =>  {
+    builder
+      .addCase(fetchFullCompanyInfo.pending, (state) => {
+        state.fetchTotalInfoStatus = LoadingStatus.Loading;
+      })
+      .addCase(fetchFullCompanyInfo.fulfilled, (state) => {
+        state.fetchTotalInfoStatus = LoadingStatus.Succeeded;
+      })
+      .addCase(fetchFullCompanyInfo.rejected, (state) => {
+        state.fetchTotalInfoStatus = LoadingStatus.Failed;
+      })
+  }
 })
 
 export const {
@@ -37,5 +48,5 @@ export const {
   clearStore,
   setCurrentPage,
   setTotalNumber,
-  setInitialDataStatus,
+  removeData,
 } = dataStock.actions;

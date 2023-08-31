@@ -117,6 +117,10 @@ const LineCellInfoWrapper = styled.div`
     background-color: ${({theme}) => theme.color.grey};
   }
 
+  dt dfn {
+    font-style: normal;
+  }
+
   dd {
     margin: 0;
   }
@@ -135,6 +139,7 @@ const ToggleButton = styled.button`
   margin-right: 0.5rem;
   width: 1.5rem;
   height: 1.5rem;
+  flex-shrink: 0;
 
   border-color: transparent;
   background-color: transparent;
@@ -169,6 +174,7 @@ const ToggleButton = styled.button`
 const ToggleButtonPlug = styled.div`
   height: 1.5rem;
   width: 2rem;
+  flex-shrink: 0;
 `;
 
 const CellInfoContent = styled.p`

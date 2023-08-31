@@ -6,7 +6,7 @@ import { LoadingStatus, ONE, STEP } from 'utils/constants';
 
 
 const StockTable = () => {
-  const isSucceedInitialization = useSelector(selector.getInitialLoadStatus) === LoadingStatus.Succeeded;
+  const hasFetchAllCompaniesSucceeded = useSelector(selector.getFetchTotalInfoStatus) === LoadingStatus.Succeeded;
   const companiesId = useSelector(selector.stockIdAll);
   const currentPage = useSelector(selector.getCurrentPage);
   const startLimit = (currentPage - ONE) * STEP;
@@ -15,7 +15,7 @@ const StockTable = () => {
   return(
     <>
       {
-        isSucceedInitialization
+        hasFetchAllCompaniesSucceeded
         ?
         <S.Table>
           <S.TableHead>

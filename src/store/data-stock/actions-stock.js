@@ -1,12 +1,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { ApiAction, ApiRoutes, LoadingStatus, MINIMUM_SAVE, NameSpace, ONE, PUBLIC_TOKEN, STEP } from "utils/constants";
-import { addCompanyName, updateInfo, setInitialDataStatus, setTotalNumber } from "./data-stock";
+import { ApiAction, ApiRoutes, MINIMUM_SAVE, NameSpace, ONE, PUBLIC_TOKEN, STEP } from "utils/constants";
+import { addCompanyName, updateInfo, setTotalNumber, removeData } from "./data-stock";
 
 export const fetchFullCompanyInfo = createAsyncThunk(
   ApiAction.FetchFullInfo,
   async (idListString, {dispatch, getState, extra: api}) => {
-    const currentNumberOfCompanies = getState()[NameSpace.DataStocks].ids.length;
-    const isInitialization = currentNumberOfCompanies === MINIMUM_SAVE * STEP;
+    const deleteIds = [];
 
     try {
       const {data} = await api.get(ApiRoutes.FullInfo(PUBLIC_TOKEN, idListString));
@@ -17,6 +16,9 @@ export const fetchFullCompanyInfo = createAsyncThunk(
         }
         if(info.iexClose) {
           dispatch(updateInfo({id, price: info.iexClose}));
+        }
+        if(info.iexClose === null) {
+          deleteIds.push(id)
         }
         if(info.ebitdaReported) {
           dispatch(updateInfo({id, ebitdaReported: info.ebitdaReported}));
@@ -39,13 +41,11 @@ export const fetchFullCompanyInfo = createAsyncThunk(
         if(info.url) {
           dispatch(updateInfo({id, url: info.url}));
         }
-
-        // change loading status during initialization
-        if(isInitialization && (data.length - 1 === index)) {
-          dispatch(setInitialDataStatus(LoadingStatus.Succeeded))
-        }
-
       })
+
+      // remove lines without price tag
+      deleteIds.forEach((id) => dispatch(removeData(id)));
+
     } catch (err) {
       throw err;
     }
@@ -58,7 +58,6 @@ export const fetchCompanyIdAndNameAction = createAsyncThunk(
     const currentNumberOfCompanies = getState()[NameSpace.DataStocks].ids.length;
     const isInitialization = currentNumberOfCompanies === 0;
     const isRequireFetch = currentPage * STEP >= currentNumberOfCompanies;
-    const endLimit = currentPage * STEP * MINIMUM_SAVE;
     let startLimit;
 
     if(isInitialization) {
@@ -66,6 +65,8 @@ export const fetchCompanyIdAndNameAction = createAsyncThunk(
     } else {
       startLimit = currentPage * STEP;
     }
+
+    const endLimit = startLimit + MINIMUM_SAVE * STEP;
 
     try {
       if(!isInitialization && !isRequireFetch) {
@@ -76,8 +77,6 @@ export const fetchCompanyIdAndNameAction = createAsyncThunk(
       const idListString = data.map((info) => info.symbol).slice(startLimit, endLimit).toString();
 
       if(isInitialization) {
-        console.log('initialization');
-
         data
           .slice(startLimit, endLimit)
           .forEach((info) => {
@@ -88,10 +87,8 @@ export const fetchCompanyIdAndNameAction = createAsyncThunk(
         dispatch(fetchFullCompanyInfo(idListString));
       } else {
         if(isRequireFetch) {
-          console.log(`tada ${currentPage}`);
-
           data
-            .slice(currentNumberOfCompanies, currentPage * STEP * MINIMUM_SAVE)
+            .slice(startLimit, endLimit)
             .forEach((info) => {
               dispatch(addCompanyName({id: info.symbol, companyName: info.name,}))
           })
@@ -100,9 +97,6 @@ export const fetchCompanyIdAndNameAction = createAsyncThunk(
         }
       }
     } catch (err) {
-      if(currentNumberOfCompanies === 0) {
-        dispatch(setInitialDataStatus(LoadingStatus.Failed))
-      }
       throw err;
     }
   }

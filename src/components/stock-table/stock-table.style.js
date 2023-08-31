@@ -1,7 +1,7 @@
 import { css, styled } from "styled-components";
 
 const cellPadding = css`
-  padding: 0.35rem;
+  padding: 0.35rem 0.5rem 0.35rem 1rem;
 
   @media (min-width: 960px) {
     padding: 0.75rem 2rem;

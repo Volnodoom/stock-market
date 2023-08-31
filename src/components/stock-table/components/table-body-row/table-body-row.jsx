@@ -1,11 +1,14 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { TableRow } from "components/stock-table/stock-table.style";
 import * as S from "./table-body-row.style";
 import * as selector from "store/data-stock/selectors-stock";
-import { LOCAL_FORMATION, StockInfoDefinition } from "utils/constants";
+import { LOCAL_FORMATION } from "utils/constants";
+import { Draggable } from "react-beautiful-dnd";
+import AdditionalInfo from "./components/additional-info/additional-info";
+import LockedCell from "./components/locked-cell/locked-cell";
 
-const TableBodyRow = ({stockId}) => {
+const TableBodyRow = ({stockId, index}) => {
   const {
     companyName,
     price,
@@ -33,94 +36,41 @@ const TableBodyRow = ({stockId}) => {
   };
 
   return(
-    <>
-      <TableRow>
-        <S.TableBodyCell>
-          <S.InteractiveContent>
-            {
-              hasAnyAdditionalDataToShow ?
-              <S.ToggleButton
-                type="button"
-                $isActive={isActive}
-                onClick={handleButtonClick}
-              ></S.ToggleButton>
-              :
-              <S.ToggleButtonPlug></S.ToggleButtonPlug>
-            }
-            <S.CellInfoContent>{companyName}</S.CellInfoContent>
-          </S.InteractiveContent>
-        </S.TableBodyCell>
-        <S.TableBodyCell>{price.toFixed(3).toLocaleString(LOCAL_FORMATION)}</S.TableBodyCell>
-      </TableRow>
-      {
-        hasAnyAdditionalDataToShow ?
-          <S.TableRowInfo>
-            <S.TableBodyCellInfo $isShown={isActive}>
-              <S.CellInfoWrapper $isShown={isActive}>
+    <Draggable draggableId={stockId} index={index}>
+      {(provided, snapshot) => (
+        <TableRow
+          ref={provided.innerRef}
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+        >
+          <LockedCell>
+            <S.InteractiveContent>
+              <S.InteractiveContentMain>
                 {
-                  cashPaidForInterest ?
-                    <S.LineCellInfoWrapper>
-                      <dt><dfn title={StockInfoDefinition.CashPaidForInterest}>Cash Paid For Interest</dfn></dt>
-                      <dd>{cashPaidForInterest.toLocaleString(LOCAL_FORMATION)}</dd>
-                    </S.LineCellInfoWrapper>
+                  hasAnyAdditionalDataToShow ?
+                  <S.ToggleButton
+                    type="button"
+                    $isActive={isActive}
+                    onClick={handleButtonClick}
+                  ></S.ToggleButton>
                   :
-                  <></>
+                  <S.ToggleButtonPlug/>
                 }
-                {
-                  pricePerEarnings ?
-                  <S.LineCellInfoWrapper>
-                    <dt><dfn title={StockInfoDefinition.PricePerEarnings}>Price Per Earnings</dfn></dt>
-                    <dd>{pricePerEarnings.toLocaleString(LOCAL_FORMATION)}</dd>
-                  </S.LineCellInfoWrapper>
-                  :
+                <S.CellInfoContent>{companyName}</S.CellInfoContent>
+              </S.InteractiveContentMain>
+              {
+                hasAnyAdditionalDataToShow ?
+                  <AdditionalInfo stockId={stockId} isShown={isActive}/>
+                :
                   <></>
-                }
-                {
-                  stockPreferredEquity ?
-                  <S.LineCellInfoWrapper>
-                    <dt><dfn title={StockInfoDefinition.StockPreferredEquity}>Stock Preferred Equity</dfn></dt>
-                    <dd>{stockPreferredEquity.toLocaleString(LOCAL_FORMATION)}</dd>
-                  </S.LineCellInfoWrapper>
-                  :
-                  <></>
-                }
-                {
-                  profitGross ?
-                  <S.LineCellInfoWrapper>
-                    <dt><dfn title={StockInfoDefinition.ProfitGross}>Profit Gross</dfn></dt>
-                    <dd>{profitGross.toLocaleString(LOCAL_FORMATION)}</dd>
-                  </S.LineCellInfoWrapper>
-                  :
-                  <></>
-                }
-                {
-                  ebitdaReported ?
-                  <S.LineCellInfoWrapper>
-                    <dt><dfn title={StockInfoDefinition.EbitdaReported}>Ebitda Reported</dfn></dt>
-                    <dd>{ebitdaReported.toLocaleString(LOCAL_FORMATION)}</dd>
-                  </S.LineCellInfoWrapper>
-                  :
-                  <></>
-                }
-                {
-                  headline && url ?
-                  <S.LineCellInfoWrapper $special>
-                    <dt>Latest news</dt>
-                    <dd>
-                      {headline} <a href={url} target="_blank" rel="noreferrer">[link]</a>
-                    </dd>
-                  </S.LineCellInfoWrapper>
-                  :
-                  <></>
-                }
-              </S.CellInfoWrapper>
-            </S.TableBodyCellInfo>
-            <S.TableBodyCellInfo $isShown={isActive}></S.TableBodyCellInfo>
-          </S.TableRowInfo>
-        :
-          <></>
-      }
-    </>
+              }
+            </S.InteractiveContent>
+          </LockedCell>
+          <LockedCell $priceTag>{price.toFixed(2).toLocaleString(LOCAL_FORMATION)}</LockedCell>
+        </TableRow>
+
+      )}
+    </Draggable>
   );
 };
 

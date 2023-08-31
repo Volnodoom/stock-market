@@ -4,7 +4,10 @@ const cellPadding = css`
   padding: 0.35rem 0.5rem 0.35rem 1rem;
 
   @media (min-width: 960px) {
-    padding: 0.75rem 2rem;
+    padding: 1.5rem 1rem;
+    &:first-child {
+      padding: 0.75rem 2rem;
+    }
   }
 `;
 

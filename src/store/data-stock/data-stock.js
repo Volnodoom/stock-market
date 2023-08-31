@@ -7,6 +7,7 @@ export const stockAdapter = createEntityAdapter();
 export const initialState = stockAdapter.getInitialState({
   ids: [],
   entities: {},
+  visitedEntities: {},
   currentPage: ONE,
   totalNumber: null,
   initialDataStatus: LoadingStatus.Idle,
@@ -21,6 +22,12 @@ export const dataStock = createSlice({
     updateInfo: stockAdapter.upsertOne,
     removeData: stockAdapter.removeOne,
     clearStore: stockAdapter.removeAll,
+    addVisitedEntities: (state, action) => {
+      const {page, dataUpdate} = action.payload;
+      state.visitedEntities = Object.assign(state.visitedEntities, {
+        [page]: dataUpdate,
+      })
+    },
     setCurrentPage: (state, action) => {
       state.currentPage = action.payload;
     },
@@ -49,4 +56,5 @@ export const {
   setCurrentPage,
   setTotalNumber,
   removeData,
+  addVisitedEntities,
 } = dataStock.actions;

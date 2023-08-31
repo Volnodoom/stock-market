@@ -35,7 +35,7 @@ const MainPage = () => {
   }
 
   const handlePreviousButtonClick = () => {
-    dispatch(setCurrentPage(currentPage - 1))
+    dispatch(setCurrentPage(currentPage - 1));
   }
 
   return(
@@ -55,10 +55,7 @@ const MainPage = () => {
                   :
                     <></>
                 }
-                <Button
-                  type="button"
-                  onClick={holdClick(handleNextButtonClick, CLICK_DELAY)}
-                >Next</Button>
+                <Button type="button"onClick={holdClick(handleNextButtonClick, CLICK_DELAY)}>Next</Button>
               </S.BreadCrumbsButtonWrapper>
             </S.MainBreadCrumbsWrapper>
           </S.MainContentWrapper>

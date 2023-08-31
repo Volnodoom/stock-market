@@ -1,12 +1,4 @@
-import { cellPadding } from "components/stock-table/stock-table.style";
 import { css, styled } from "styled-components";
-
-const paddingZero = css`
-  padding: 0;
-  @media (min-width: 960px) {
-    padding: 0;
-  }
-`;
 
 const arrowDown = css`
   &::after {
@@ -28,109 +20,55 @@ const arrowUp = css`
   }
 `;
 
-const rowShow = css`
-  max-height: 400px;
-  transition: max-height 0.6s;
-`;
+const cellBodyPadding = css`
+  padding: 0.35rem 0.5rem 0.35rem 1rem;
 
-const rowHide = css`
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s;
-`;
-
-const borderOnePx = css`
-  border-bottom: 2px solid ${({theme}) => theme.color.supportOne};
-`;
-
-const borderZeroPx = css`
-  border-bottom: 1px solid transparent;
-`;
-
-const special = css`
-  flex-direction: column;
-
-  dt {
-    position: relative;
-
-    &::after {
-      content: '';
-      position: absolute;
-      width: 80%;
-      height: 2px;
-      bottom: 4px;
-      right: 0px;
-
-      border-bottom: 6px double ${({theme}) => theme.color.white};
-    }
+  @media (min-width: 960px) {
+    padding: 0.75rem 1rem;
   }
 `;
 
-const TableRowInfo = styled.tr`
-  ${({$isShown}) => $isShown ? borderOnePx : borderZeroPx}
+const priceCell = css`
+  vertical-align: top;
+  position: relative;
+  display: flex;
+  align-items: center;
 
+  &::before {
+    position: relative;
+    content: '';
+    top:0;
+    left: 0;
+    width: 1px;
+    height: 1.5rem;
+  }
+  ${cellBodyPadding}
 `;
 
-const TableBodyCell = styled.td`
-  ${cellPadding};
 
+
+const TableBodyCell = styled.td`
   &:first-child {
     width: 80%;
     color: ${({theme}) => theme.color.blackDark};
   }
-`;
 
-const TableBodyCellInfo = styled.td`
-  ${cellPadding};
-  background-color: ${({theme, $isShown}) => $isShown ? theme.color.blueBackground : theme.color.white};
-  color: ${({theme}) => theme.color.white};
-  ${({$isShown}) => $isShown ? cellPadding : paddingZero}
-  transition: padding 0.3s;
-
-`;
-
-const CellInfoWrapper = styled.dl`
-  margin: 0;
-  ${({$isShown}) => $isShown ? rowShow : rowHide};
-`;
-
-const LineCellInfoWrapper = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  justify-content: space-between;
-  padding: 0.5rem;
-
-  a:link {
-    color: ${({theme}) => theme.color.white};
-  }
-
-  a:visited {
+  &:last-child {
+    width: 20%;
     color: ${({theme}) => theme.color.blackDark};
   }
 
-  a:hover {
-    background-color: ${({theme}) => theme.color.grey};
-  }
-
-  a:active {
-    background-color: ${({theme}) => theme.color.grey};
-  }
-
-  dt dfn {
-    font-style: normal;
-  }
-
-  dd {
-    margin: 0;
-  }
-
-  ${({$special}) => $special ? special : ""};
+  ${({$priceTag}) => $priceTag ? priceCell : ""};
 `;
 
 const InteractiveContent = styled.div`
+
+`;
+
+const InteractiveContentMain = styled.div`
   display: flex;
   align-items: center;
+  ${cellBodyPadding}
 `;
 
 const ToggleButton = styled.button`
@@ -183,13 +121,10 @@ const CellInfoContent = styled.p`
 
 export {
   TableBodyCell,
-  TableBodyCellInfo,
-  CellInfoWrapper,
-  LineCellInfoWrapper,
+  InteractiveContent,
+  InteractiveContentMain,
+  CellInfoContent,
   ToggleButton,
   ToggleButtonPlug,
-  CellInfoContent,
-  InteractiveContent,
-  TableRowInfo,
 }
 

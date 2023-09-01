@@ -56,7 +56,7 @@ const AdditionalInfoItem = styled.li`
   }
 
   a:visited {
-    color: ${({theme}) => theme.color.blackDark};
+    color: ${({theme}) => theme.color.yellow};
   }
 
   a:hover {

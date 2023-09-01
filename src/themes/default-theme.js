@@ -7,6 +7,7 @@ export const defaultTheme = {
     greyDark: '#344054',
     blue: '#0070FF',
     blueBackground: '#2768BA',
+    yellow: '#F6D919',
 
     // table
     supportMain: '#FCFCFD',

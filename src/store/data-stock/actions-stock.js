@@ -1,14 +1,15 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { ApiAction, ApiRoutes, MINIMUM_SAVE, NameSpace, ONE, PUBLIC_TOKEN, STEP } from "utils/constants";
+import { ApiAction, ApiRoutes, MINIMUM_SAVE, NameSpace, ONE, STEP } from "utils/constants";
 import { addCompanyName, updateInfo, setTotalNumber, removeData } from "./data-stock";
 
 export const fetchFullCompanyInfo = createAsyncThunk(
   ApiAction.FetchFullInfo,
   async (idListString, {dispatch, getState, extra: api}) => {
     const deleteIds = [];
+    const publicToken = getState()[NameSpace.DataToken].token;
 
     try {
-      const {data} = await api.get(ApiRoutes.FullInfo(PUBLIC_TOKEN, idListString));
+      const {data} = await api.get(ApiRoutes.FullInfo(publicToken, idListString));
       data.forEach((info, index) => {
         const id = info.symbol;
         if(!id) {
@@ -55,6 +56,7 @@ export const fetchFullCompanyInfo = createAsyncThunk(
 export const fetchCompanyIdAndNameAction = createAsyncThunk(
   ApiAction.FetchNameAndId,
   async (currentPage = ONE, {dispatch, getState, extra: api}) => {
+    const publicToken = getState()[NameSpace.DataToken].token;
     const currentNumberOfCompanies = getState()[NameSpace.DataStocks].ids.length;
     const isInitialization = currentNumberOfCompanies === 0;
     const isRequireFetch = currentPage * STEP >= currentNumberOfCompanies;
@@ -73,7 +75,7 @@ export const fetchCompanyIdAndNameAction = createAsyncThunk(
         return;
       }
 
-      const {data} = await api.get(ApiRoutes.NameAndId(PUBLIC_TOKEN));
+      const {data} = await api.get(ApiRoutes.NameAndId(publicToken));
       const idListString = data.map((info) => info.symbol).slice(startLimit, endLimit).toString();
 
       if(isInitialization) {

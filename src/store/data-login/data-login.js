@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { LoadingStatus, NameSpace } from "utils/constants";
-import { fetchToken } from "./actions-data-log-in";
+import { fetchToken } from "./actions-login";
 
 
 export const initialState = {

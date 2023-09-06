@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { ApiAction, ApiRoutes, LoadingStatus } from "utils/constants";
-import { addToken, updateTokenStatus } from "./data-log-in";
+import { addToken, updateTokenStatus } from "./data-login";
 
 export const fetchToken = createAsyncThunk(
   ApiAction.FetchToken,

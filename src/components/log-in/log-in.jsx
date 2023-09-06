@@ -1,9 +1,9 @@
 import { useRef } from "react";
 import * as S from "./log-in.style";
 import { useAppDispatch } from "hooks/use-app-dispatch";
-import { fetchToken } from "store/data-log-in/actions-data-log-in";
+import { fetchToken } from "store/data-login/actions-login";
 import { useSelector } from "react-redux";
-import { getTokenStatus } from "store/data-log-in/data-log-in";
+import { getTokenStatus } from "store/data-login/data-login";
 import { LoadingStatus } from "utils/constants";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -44,7 +44,7 @@ const LogIn = () => {
 
       <S.LoginForm onSubmit={handleSubmit}>
         <S.LoginLabel htmlFor="inputId">Token</S.LoginLabel>
-        <S.LoginInput id="inputId" type="text" required ref={inputRef}/>
+        <S.LoginInput id="inputId" type="text" required ref={inputRef} placeholder="pk_***********************"/>
         <S.LoginButton type="submit">{isLoading ? 'Sending...' : 'Send'}</S.LoginButton>
       </S.LoginForm>
       <S.LoginWarring $hasShown={isError}>Token is not valid</S.LoginWarring>

@@ -53,13 +53,17 @@ const LoginLabel = styled.label`
 
 const LoginInput = styled.input`
   width: 17rem;
-  padding: 0 0.5rem;
+  padding: 0.2rem 0.5rem;
   border-radius: 0.5rem;
   border: 1px solid ${({theme}) => theme.color.supportOne};
 
   @media (min-width: 960px) {
     width: 21rem;
     font-size: 1rem;
+  }
+
+  &:placeholder-shown {
+    color: ${({theme}) => theme.color.supportTwo};
   }
 `;
 

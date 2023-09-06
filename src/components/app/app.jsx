@@ -9,7 +9,7 @@ import { fetchCompanyIdAndNameAction } from "store/data-stock/actions-stock";
 import { clearStore } from "store/data-stock/data-stock";
 import LogIn from "components/log-in/log-in";
 import { useSelector } from "react-redux";
-import { getTokenStatus } from "store/data-log-in/data-log-in";
+import { getTokenStatus } from "store/data-login/data-login";
 
 const App = () => {
   const dispatch = useAppDispatch();

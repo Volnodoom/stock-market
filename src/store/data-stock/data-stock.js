@@ -19,9 +19,13 @@ export const dataStock = createSlice({
   initialState,
   reducers: {
     addCompanyName: stockAdapter.addOne,
+    // payload: {id: info.symbol, companyName: info.name,}
     updateInfo: stockAdapter.upsertOne,
+    // payload: {id, someProperty: info.profitGross}
     removeData: stockAdapter.removeOne,
+    // payload: id
     clearStore: stockAdapter.removeAll,
+    // payload: nothing
     addVisitedEntities: (state, action) => {
       const {page, dataUpdate} = action.payload;
       state.visitedEntities = Object.assign(state.visitedEntities, {
